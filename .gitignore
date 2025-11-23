@@ -1,0 +1,35 @@
+# Django-specific files
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+
+
+# Virtual Environment
+.env
+venv/
+env/
+
+# IDE/Editor specific files
+.idea/  # For PyCharm
+.vscode/ # For VS Code
+*.sublime-project
+*.sublime-workspace
+
+# Testing and coverage reports
+.coverage
+.tox/
+htmlcov/
+.pytest_cache/
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Other common files to ignore
+*.bak
+*.swp
+*.swo
+*.tar.gz
+*.zip
