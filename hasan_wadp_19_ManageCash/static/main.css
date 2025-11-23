@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Marcellus&family=Poppins:wght@400;600&display=swap');
+
+body {
+    background-color: aliceblue;
+    font-family: "Poppins", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Marcellus", serif !important;
+}
+
+button {
+    font-family: "Marcellus", serif !important;
+    text-transform: uppercase;
+    padding-top: 7.5px !important;
+    padding-bottom: 7.5px !important;
+}
+
+.alert-dismissible .btn-close {
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+}
+
+.form-text {
+    display: none;
+}
+
+/* dashbaord ocde */
+
+.content-body {
+    margin-top: 30px;
+    padding: 60px 20px 30px 280px;
+}
