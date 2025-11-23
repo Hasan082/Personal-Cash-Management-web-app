@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Marcellus&family=Poppins:wght@400;600&display=swap');
 
 body {
-    background-color: aliceblue;
-    font-family: "Poppins", sans-serif;
+  background-color: aliceblue;
+  font-family: "Poppins", sans-serif;
 }
 
 h1,
@@ -11,28 +11,65 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: "Marcellus", serif !important;
+  font-family: "Marcellus", serif !important;
 }
 
 button {
-    font-family: "Marcellus", serif !important;
-    text-transform: uppercase;
-    padding-top: 7.5px !important;
-    padding-bottom: 7.5px !important;
+  font-family: "Marcellus", serif !important;
+  text-transform: uppercase;
+  padding-top: 7.5px !important;
+  padding-bottom: 7.5px !important;
 }
 
 .alert-dismissible .btn-close {
-    top: 50% !important;
-    transform: translateY(-50%) !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
 }
 
 .form-text {
-    display: none;
+  display: none;
 }
 
 /* dashbaord ocde */
 
 .content-body {
-    margin-top: 30px;
-    padding: 60px 20px 30px 280px;
+  margin-top: 30px;
+  padding: 60px 20px 30px 280px;
+}
+
+.top-bar-wrap {
+  min-height: 56px;
+}
+
+#sidebarToggle:hover {
+  background-color: rgba(0, 123, 255, 0.08);
+}
+
+.dropdown-menu-end {
+  right: 0;
+  left: auto;
+}
+
+
+.stat-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.icon-box {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.stat-card h4 {
+  font-size: 1.7rem;
 }

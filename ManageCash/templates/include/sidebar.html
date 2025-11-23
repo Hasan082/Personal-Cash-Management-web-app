@@ -1,15 +1,46 @@
-<div class="sidebar">
-    <div class="sidebar-inner">
-        <div class="sidebar-wrap">
-            <div class="sidebar-logo text-primary text-center">
-                <i class="fa-solid fa-sack-dollar display-6"></i>
-                <h4 class="m-0 mt-1">Cash Manager</h4>
-            </div>
-            <ul class="p-0 list-unstyled sidebar-nav">
-                <li><a href="" class="active">Dashboard</a></li>
-                <li><a href="">Cash List</a></li>
-                <li><a href="">Expense List</a></li>
-            </ul>
+<div class="sidebar bg-white border-end" id="sidebar">
+  <div class="sidebar-inner d-flex flex-column h-100">
+    <div class="sidebar-wrap p-3">
+
+      <!-- Logo / Brand -->
+      <div class="sidebar-logo text-primary text-center mb-4">
+        <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center mb-2" style="width: 52px; height: 52px;">
+          <i class="fa-solid fa-sack-dollar fs-3"></i>
         </div>
+        <h4 class="m-0">Cash Manager</h4>
+      </div>
+
+      <!-- Navigation -->
+      <ul class="list-unstyled sidebar-nav m-0">
+        <li class="mb-1">
+          <a href="{% url 'dashboard' %}"
+             class="sidebar-link d-flex align-items-center {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+            <i class="fa-solid fa-gauge-high me-2"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="mb-1">
+          <a href="{% url 'cash_list' %}"
+             class="sidebar-link d-flex align-items-center {% if request.resolver_match.url_name == 'cash_list' %}active{% endif %}">
+            <i class="fa-solid fa-wallet me-2"></i>
+            <span>Cash List</span>
+          </a>
+        </li>
+
+        <li class="mb-1">
+          <a href="{% url 'expense_list' %}"
+             class="sidebar-link d-flex align-items-center {% if request.resolver_match.url_name == 'expense_list' %}active{% endif %}">
+            <i class="fa-solid fa-receipt me-2"></i>
+            <span>Expense List</span>
+          </a>
+        </li>
+      </ul>
     </div>
+
+    <!-- Optional footer inside sidebar -->
+    <div class="mt-auto p-3 small text-muted">
+      <span>&copy; {{ now|date:"Y" }} Cash Manager</span>
+    </div>
+  </div>
 </div>

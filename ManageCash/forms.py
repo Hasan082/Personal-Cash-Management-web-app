@@ -17,3 +17,14 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = ['name', 'age']
 
+
+class AddCashForm(forms.ModelForm):
+
+    class Meta:
+        model = AddCash
+        fields = ['datetime','source', 'description', 'amount']
+
+        widgets = {
+            'datetime': forms.DateTimeInput(attrs={'type': 'datetime-local'})
+        }
+

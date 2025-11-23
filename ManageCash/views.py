@@ -3,7 +3,7 @@ from .models import Profile, AddCash, Expense
 from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import RegisterForm, ProfileForm
+from .forms import RegisterForm, ProfileForm, AddCashForm
 from django.contrib import messages
 
 # AUTH VIEWS==============================
@@ -94,8 +94,22 @@ def cash_list_view(request):
 
 @login_required
 def add_cash_view(request):
+    if request.method == 'POST':
+        form = AddCashForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Cash added successfully!')
+            return redirect("cash_list")
+        else:
+            messages.error(request, "Cash add failed! Try Again!")
+    else:
+        form = AddCashForm()
 
-    return render(request, "pages/cash.html")
+    context = {
+        'form' : form
+    }
+
+    return render(request, "pages/cash.html", context)
 
 
 @login_required
