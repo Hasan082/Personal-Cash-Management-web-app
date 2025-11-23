@@ -16,7 +16,13 @@
             <!-- Header / Icon -->
             <div class="text-center mb-3 text-primary">
               <i class="fas fa-money-bill-wave fa-3x mb-2"></i>
-              <h2 class="h4 mb-0">Add Your Cash</h2>
+              <h2 class="h4 mb-0">
+                {% if edit %}
+                  Update Cash
+                {% else %}
+                  Add Your Cash
+                {% endif %}
+              </h2>
             </div>
 
             <hr />
@@ -26,13 +32,19 @@
               <form action="" method="POST">
                 {% csrf_token %}
                 {{ form|crispy }}
-                <button type="submit" class="w-100 btn btn-primary">Add Cash</button>
+                <button type="submit" class="w-100 btn btn-primary">
+                  {% if edit %}
+                    Update Cash
+                  {% else %}
+                    Add Cash
+                  {% endif %}
+                </button>
               </form>
             </div>
 
             <!-- Actions -->
             <div class="d-flex justify-content-between gap-2">
-              <a class="btn btn-outline-secondary btn-sm" href="{% url 'dashboard' %}"><i class="fas fa-arrow-left me-1"></i> Back</a>
+              <a class="btn btn-outline-secondary btn-sm" href="{% url 'cash_list' %}"><i class="fas fa-arrow-left me-1"></i> Back</a>
             </div>
           </div>
         </div>

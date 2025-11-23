@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Profile, AddCash, Expense
 from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import RegisterForm, ProfileForm, AddCashForm
 from django.contrib import messages
+from django.db.models import Sum
 
 # AUTH VIEWS==============================
 
@@ -55,8 +56,12 @@ def logout_view(request):
 
 @login_required
 def dashboard_view(request):
+    cash_data = AddCash.objects.filter(user=request.user)
 
-    return render(request, "pages/dashboard.html")
+    cash_in = cash_data.aggregate(total=Sum("amount"))["total"]
+    context = {"cash_in": cash_in}
+
+    return render(request, "pages/dashboard.html", context)
 
 
 # PROFILE VIEWS==============================
@@ -89,39 +94,62 @@ def profile_update_view(request):
 @login_required
 def cash_list_view(request):
 
-    return render(request, "pages/cash-list.html")
+    cash_data = AddCash.objects.all()
+    context = {"cash_data": cash_data}
+
+    return render(request, "pages/cash-list.html", context)
 
 
 @login_required
 def add_cash_view(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = AddCashForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Cash added successfully!')
+            cash_user = form.save(commit=False)
+            cash_user.user = request.user
+            cash_user.save()
+            messages.success(request, "Cash added successfully!")
             return redirect("cash_list")
         else:
             messages.error(request, "Cash add failed! Try Again!")
     else:
         form = AddCashForm()
 
-    context = {
-        'form' : form
-    }
+    context = {"form": form}
 
     return render(request, "pages/cash.html", context)
 
 
+def single_cash_view(request, id):
+
+    return render(request, "pages/single-cash.html")
+
+
 @login_required
-def edit_cash_view(request):
-
-    return render(request, "pages/cash.html")
+def edit_cash_view(request, id):
+    cash = get_object_or_404(AddCash, id=id, user=request.user)
+    if request.method == "POST":
+        form = AddCashForm(request.POST, instance=cash)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Cash Updated successfully!")
+            return redirect("cash_list")
+        else:
+            messages.error(request, "Please Try again!")
+    else:
+        form = AddCashForm(instance=cash)
+    context = {"form": form, "edit": True}
+    return render(request, "pages/cash.html", context)
 
 
 @login_required
-def delete_cash_view(request):
-
-    return render(request, "pages/cash.html")
+def delete_cash_view(request, id):
+    if request.method == "POST":
+        cash = get_object_or_404(AddCash, id=id, user=request.user)
+        cash.delete()
+        messages.success(request, "Cash record deleted successfully.")
+        return redirect("cash_list")
+    return redirect("cash_list")
 
 
 # EXPENSE VIEWS==============================

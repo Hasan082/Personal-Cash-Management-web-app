@@ -8,6 +8,7 @@ from .views import (
     profile_update_view,
     cash_list_view,
     add_cash_view,
+    single_cash_view,
     edit_cash_view,
     delete_cash_view,
     expense_list_view,
@@ -29,8 +30,9 @@ urlpatterns = [
     # Cash CRUD =============
     path("cash/list/", cash_list_view, name="cash_list"),
     path("cash/add/", add_cash_view, name="add_cash"),
-    path("cash/edit/", edit_cash_view, name="edit_cash"),
-    path("cash/del/", delete_cash_view, name="delete_cash"),
+    path("cash/add/<int:id>", single_cash_view, name="cash_detail"),
+    path("cash/edit/<int:id>", edit_cash_view, name="cash_update"),
+    path("cash/del/<int:id>", delete_cash_view, name="cash_delete"),
     # Expense CRUD =============
     path("expense/list/", expense_list_view, name="expense_list"),
     path("expense/add/", add_expense_view, name="add_expense"),
