@@ -5,6 +5,7 @@ from .views import (
     login_view,
     logout_view,
     profile_view,
+    profile_update_view,
     cash_list_view,
     add_cash_view,
     edit_cash_view,
@@ -19,11 +20,12 @@ urlpatterns = [
     # Dashbaord===================
     path("", dashboard_view, name="dashboard"),
     # Authentication==============
-    path("register/", register_view, name="register"),
-    path("login/", login_view, name="login"),
-    path("logout/", logout_view, name="logout"),
+    path("auth/register/", register_view, name="register"),
+    path("auth/login/", login_view, name="login"),
+    path("auth/logout/", logout_view, name="logout"),
     # Profile ==============
-    path("profile/", profile_view, name="profle"),
+    path("profile/", profile_view, name="profile"),
+    path("profile/update/", profile_update_view, name="profile_update"),
     # Cash CRUD =============
     path("cash/list/", cash_list_view, name="cash_list"),
     path("cash/add/", add_cash_view, name="add_cash"),

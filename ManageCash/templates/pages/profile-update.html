@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  Update Profile | Cash Manager
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow border-0 rounded-4 p-4">
+
+        {% include 'include/alert.html' %}
+
+        <div class="text-center mb-3 text-primary">
+          <i class="fas fa-user-edit fa-3x mb-2"></i>
+          <h2 class="h5 m-0 mt-1">Update Profile</h2>
+        </div>
+
+        <form method="post">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <button type="submit" class="btn btn-primary w-100 mt-3">
+            <i class="fas fa-save me-1"></i> Save Changes
+          </button>
+        </form>
+
+        <div class="text-center mt-3">
+          <a href="{% url 'profile' %}" class="text-secondary text-decoration-none">
+            <i class="fas fa-arrow-left me-1"></i> Back to Profile
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

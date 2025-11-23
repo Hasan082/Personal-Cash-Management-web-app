@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  Profile | Cash Manager
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow border-0 rounded-4">
+        <div class="card-body px-4 py-4">
+
+          {% include 'include/alert.html' %}
+
+          <!-- Header / Icon -->
+          <div class="text-center mb-3 text-primary">
+            <i class="fas fa-user-circle fa-3x mb-2"></i>
+            <h2 class="h4 mb-0">My Profile</h2>
+            <p class="text-muted small mb-0">@{{ user.username }}</p>
+          </div>
+
+          <hr>
+
+          <!-- Profile info -->
+          <div class="profile-info mb-3">
+            <div class="mb-2">
+              <span class="text-muted small d-block">Full Name</span>
+              <span class="fw-semibold">
+                {{ user.profile.name|default:"Not set" }}
+              </span>
+            </div>
+
+            <div class="mb-2">
+              <span class="text-muted small d-block">Age</span>
+              <span class="fw-semibold">
+                {{ user.profile.age|default:"Not set" }}
+              </span>
+            </div>
+
+            <div class="mb-2">
+              <span class="text-muted small d-block">Email</span>
+              <span class="fw-semibold">
+                {{ user.email }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="d-flex justify-content-between gap-2">
+            <a class="btn btn-outline-secondary btn-sm" href="{% url 'dashboard' %}">
+              <i class="fas fa-arrow-left me-1"></i> Back
+            </a>
+            <a class="btn btn-primary btn-sm" href="{% url 'profile_update' %}">
+              <i class="fas fa-user-edit me-1"></i> Update Profile
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
