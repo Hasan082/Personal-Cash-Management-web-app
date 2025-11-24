@@ -50,8 +50,5 @@ Commands
 - System checks: `python3 manage.py check`
 - Run tests: `python3 manage.py test`
 
-Contributing
-------------
-Open an issue or submit a pull request. Add a `LICENSE` when publishing.
 
 
