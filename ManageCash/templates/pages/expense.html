@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  Expense | Cash Manager
+{% endblock %}
+
+{% block content %}
+  <div class="container py-4">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="card shadow border-0 rounded-4">
+          <div class="card-body px-4 py-4">
+            {% include 'include/alert.html' %}
+
+            <!-- Header / Icon -->
+            <div class="text-center mb-3 text-primary">
+              <i class="fas fa-money-bill-wave fa-3x mb-2"></i>
+              <h2 class="h4 mb-0">
+                {% if edit %}
+                  Update Expense
+                {% else %}
+                  Add Your Expense
+                {% endif %}
+              </h2>
+            </div>
+
+            <hr />
+
+            <!-- Cash info -->
+            <div class="profile-info mb-3">
+              <form action="" method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="w-100 btn btn-primary">
+                  {% if edit %}
+                    Update Expense
+                  {% else %}
+                    Add Expense
+                  {% endif %}
+                </button>
+              </form>
+            </div>
+
+            <!-- Actions -->
+            <div class="d-flex justify-content-between gap-2">
+              <a class="btn btn-outline-secondary btn-sm" href="{% url 'expense_list' %}"><i class="fas fa-arrow-left me-1"></i> Back</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -36,6 +36,7 @@ urlpatterns = [
     # Expense CRUD =============
     path("expense/list/", expense_list_view, name="expense_list"),
     path("expense/add/", add_expense_view, name="add_expense"),
-    path("expense/edit/", edit_expense_view, name="edit_expense"),
-    path("expense/del/", delete_expense_view, name="delete_expense"),
+    path("expense/add/<int:id>", single_cash_view, name="expense_detail"),
+    path("expense/edit/<int:id>", edit_expense_view, name="expense_update"),
+    path("expense/del/<int:id>", delete_expense_view, name="delete_expense"),
 ]

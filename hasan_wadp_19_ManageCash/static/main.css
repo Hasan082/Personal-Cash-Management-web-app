@@ -73,3 +73,16 @@ button {
 .stat-card h4 {
   font-size: 1.7rem;
 }
+
+
+button.del_button_custom {
+    border-left-width: 0 !important;
+    border-top-right-radius: 0.25rem !important;
+    border-bottom-right-radius :0.25rem !important;
+    transition: all .1s linear !important;
+}
+
+button.del_button_custom:hover {
+  background-color: #dc3545 !important;
+  color: white !important;
+}

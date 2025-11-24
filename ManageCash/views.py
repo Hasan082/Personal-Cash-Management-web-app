@@ -3,7 +3,7 @@ from .models import Profile, AddCash, Expense
 from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import RegisterForm, ProfileForm, AddCashForm
+from .forms import RegisterForm, ProfileForm, AddCashForm, ExpenseForm
 from django.contrib import messages
 from django.db.models import Sum
 
@@ -57,9 +57,14 @@ def logout_view(request):
 @login_required
 def dashboard_view(request):
     cash_data = AddCash.objects.filter(user=request.user)
+    exp_data = Expense.objects.filter(user=request.user)
 
     cash_in = cash_data.aggregate(total=Sum("amount"))["total"]
-    context = {"cash_in": cash_in}
+    exp_data = exp_data.aggregate(total=Sum("amount"))["total"]
+
+    balance = cash_in - exp_data
+
+    context = {"cash_in": cash_in, "exp_data": exp_data, "balance": balance}
 
     return render(request, "pages/dashboard.html", context)
 
@@ -158,22 +163,55 @@ def delete_cash_view(request, id):
 @login_required
 def expense_list_view(request):
 
-    return render(request, "pages/expense-list.html")
+    exp_data = Expense.objects.all()
+    context = {"exp_data": exp_data}
+
+    return render(request, "pages/expense-list.html", context)
 
 
 @login_required
 def add_expense_view(request):
 
-    return render(request, "pages/expense.html")
+    if request.method == "POST":
+        form = ExpenseForm(request.POST)
+        if form.is_valid():
+            exp_user = form.save(commit=False)
+            exp_user.user = request.user
+            exp_user.save()
+            messages.success(request, "Expense added successfully!")
+            return redirect("expense_list")
+        else:
+            messages.error(request, "Expense add failed! Try Again!")
+    else:
+        form = ExpenseForm()
+
+    context = {"form": form}
+
+    return render(request, "pages/expense.html", context)
 
 
 @login_required
-def edit_expense_view(request):
-
-    return render(request, "pages/expense.html")
+def edit_expense_view(request, id):
+    exp = get_object_or_404(Expense, id=id, user=request.user)
+    if request.method == "POST":
+        form = ExpenseForm(request.POST, instance=exp)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Expense Updated successfully!")
+            return redirect("expense_list")
+        else:
+            messages.error(request, "Please Try again!")
+    else:
+        form = ExpenseForm(instance=exp)
+    context = {"form": form, "edit": True}
+    return render(request, "pages/expense.html", context)
 
 
 @login_required
-def delete_expense_view(request):
-
-    return render(request, "pages/cash.html")
+def delete_expense_view(request, id):
+    if request.method == "POST":
+        exp = get_object_or_404(Expense, id=id, user=request.user)
+        exp.delete()
+        messages.success(request, "Expense record deleted successfully.")
+        return redirect("expense_list")
+    return redirect("expense_list")

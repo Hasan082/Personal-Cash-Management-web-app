@@ -28,3 +28,13 @@ class AddCashForm(forms.ModelForm):
             'datetime': forms.DateTimeInput(attrs={'type': 'datetime-local'})
         }
 
+
+class ExpenseForm(forms.ModelForm):
+    class Meta:
+        model = Expense
+        fields = ["datetime", "description", "amount"]
+
+        widgets = {
+            'datetime': forms.DateTimeInput(attrs={'type': 'datetime-local'})
+        }
+
