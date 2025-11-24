@@ -1,109 +1,57 @@
-Personal Cash Management Web App
-================================
+Personal Cash Management
+=======================
 
-A lightweight Django app to track personal income and expenses with a simple dashboard showing totals, recent activity and charts.
+Brief
+-----
+A compact Django application for tracking personal income and expenses. It provides user authentication, simple CRUD for transactions, and a dashboard with aggregated totals and visualizations.
 
-Quick features
-- User registration and login
-- Add / edit / delete income (AddCash) and expenses
-- Dashboard with totals and recent transactions
-- Charts (Chart.js) for monthly income vs expenses and top expenses
+Key Features
+------------
+- User registration and authentication
+- Add / edit / delete income and expense records
+- Dashboard with totals, recent transactions and charts
 
-Prerequisites
-- Python 3.11+
-- virtualenv (recommended)
-
-Setup (local)
-1. Create and activate a virtual environment
+Quick start
+-----------
+1. Create and activate a virtual environment:
 
 	```bash
 	python3 -m venv venv
 	source venv/bin/activate
 	```
 
-2. Install dependencies
+2. Install dependencies and run migrations:
 
 	```bash
 	python3 -m pip install -r requirements.txt
-	```
-
-3. Run migrations
-
-	```bash
 	python3 manage.py migrate
 	```
 
-4. Create a superuser (optional)
+3. Start the development server:
 
 	```bash
-	python3 manage.py createsuperuser
+	python3 manage.py runserver
 	```
 
-5. Run the development server
+Configuration notes
+-------------------
+- Set `DEBUG=False` and configure `ALLOWED_HOSTS` for production.
+- Keep `SECRET_KEY` and other secrets out of source control (use environment variables).
 
-	```bash
-	python3 manage.py runserver 9001
-	```
+Where to look
+-------------
+- Models: `ManageCash/models.py`
+- Views: `ManageCash/views.py` (dashboard aggregation and context)
+- Templates: `ManageCash/templates/pages/dashboard.html`
+- Static JS: `hasan_wadp_19_ManageCash/static/js/dashboard.js`
 
-6. Open the app in your browser at `http://127.0.0.1:9001/`
+Commands
+--------
+- System checks: `python3 manage.py check`
+- Run tests: `python3 manage.py test`
 
-Notes about charts and static assets
-- The dashboard uses Chart.js via CDN (configured in `ManageCash/templates/base.html`). If you prefer a local copy, add Chart.js to `static/js/` and update the template.
-- Chart data is prepared in `ManageCash/views.py` and passed as JSON to the template. The charts are initialized by `hasan_wadp_19_ManageCash/static/js/dashboard.js`.
+Contributing
+------------
+Open an issue or submit a pull request. Add a `LICENSE` when publishing.
 
-Customization
-- Dashboard template: `ManageCash/templates/pages/dashboard.html`
-- Views: `ManageCash/views.py` (the `dashboard_view` builds monthly totals and recent transactions)
-- Models: `ManageCash/models.py` (AddCash, Expense, Profile)
 
-Useful commands
-- Run Django system checks: `python3 manage.py check`
-- Run tests (if any): `python3 manage.py test`
-- Collect static files for production: `python3 manage.py collectstatic`
-
-Troubleshooting
-- If charts don't render, open browser DevTools console and check for errors. Ensure Chart.js CDN is reachable or switch to a local JS file.
-- If Django is not found, ensure the virtualenv is activated and dependencies are installed.
-
-License & attribution
-- This project is an example/demo. Add a LICENSE file if you plan to publish or share publicly.
-
-Want changes?
-- I can add CSV export, monthly budget goals, categories for expenses, or unit tests. Tell me which feature you'd like next.
-
-## Project Details
-
-### Purpose
-This project is a compact Django application for tracking personal income and expenses. It focuses on simple CRUD operations, a concise dashboard for quick insights, and lightweight visualizations to help users understand their cash flow.
-
-### Architecture & Data Flow
-- Models: `Profile`, `AddCash` (income), and `Expense` — transactions inherit common fields from an abstract `TransactionBase`.
-- Views: server-side views handle authentication, CRUD for transactions, and `dashboard_view` aggregates totals and prepares JSON-encoded time series for charts.
-- Templates: server-rendered templates in `ManageCash/templates/` display data; the dashboard template receives JSON for charts and a `recent_tx` list for recent activity.
-- Client: `hasan_wadp_19_ManageCash/static/js/dashboard.js` reads `window.dashboardData` and initializes Chart.js charts inside `.chart-container` elements.
-
-### Important Files
-- `ManageCash/models.py` — data models and fields (amounts use `DecimalField`).
-- `ManageCash/views.py` — request handlers and dashboard aggregation logic.
-- `ManageCash/forms.py` — form definitions used for create/edit flows.
-- `ManageCash/templates/pages/dashboard.html` — dashboard layout and the inline data bridge (sets `window.dashboardData`).
-- `hasan_wadp_19_ManageCash/static/js/dashboard.js` — chart initialization logic (separate static file).
-- `hasan_wadp_19_ManageCash/static/main.css` — app styles and chart container sizing.
-
-### How Dashboard Data Is Built
-- The dashboard computes per-user totals by aggregating `Sum('amount')` on filtered QuerySets.
-- A 6-month series is generated by computing month boundaries and querying transactions in each month (`datetime__gte` and `datetime__lt`).
-- Recent transactions are created by merging the most recent incomes and expenses, sorting by `datetime`, and slicing to the top N items.
-- The view JSON-encodes arrays (labels and values) and the template injects them into `window.dashboardData` for the JS initializer.
-
-### Testing & Quality
-- Add unit tests for `dashboard_view` to verify aggregation logic and for CRUD endpoints.
-- Use `flake8` for linting and `black` for formatting.
-
-### Extension Ideas
-- Expense categories and a category breakdown chart.
-- Monthly budgets or savings goal per user with visual progress.
-- CSV/Excel export for transactions and reports.
-- Quick-add modal using AJAX and `crispy_forms` for a smoother UX.
-
-If you want, I can add one of the extension features above or create a sample unit test for `dashboard_view`.
