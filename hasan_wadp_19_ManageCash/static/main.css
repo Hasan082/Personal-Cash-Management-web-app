@@ -86,3 +86,14 @@ button.del_button_custom:hover {
   background-color: #dc3545 !important;
   color: white !important;
 }
+
+/* Chart containers: uniform responsive size */
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 320px;
+}
+
+@media (max-width: 767px) {
+  .chart-container { height: 220px; }
+}

@@ -50,8 +50,111 @@
           </div>
         </div>
       </div>
+      <!-- placeholder for layout; average cards moved to their own row below -->
     </div>
 
   </div>
 </div>
+<!-- Avg cards in own row -->
+<div class="container-fluid mt-3">
+  <div class="row g-3">
+    <div class="col-md-4">
+      <div class="card stat-card shadow-sm border-0 rounded-4">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div class="icon-box bg-light">
+            <i class="fas fa-arrow-up fa-2x text-success"></i>
+          </div>
+          <div class="text-end">
+            <h6 class="m-0 text-uppercase small opacity-75">Avg Income / month</h6>
+            <h5 class="m-0 fw-bold text-success">{{ avg_monthly_income }} <small class="opacity-75">BDT</small></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card stat-card shadow-sm border-0 rounded-4">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div class="icon-box bg-light">
+            <i class="fas fa-arrow-down fa-2x text-danger"></i>
+          </div>
+          <div class="text-end">
+            <h6 class="m-0 text-uppercase small opacity-75">Avg Expense / month</h6>
+            <h5 class="m-0 fw-bold text-danger">{{ avg_monthly_spend }} <small class="opacity-75">BDT</small></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Charts and recent activity -->
+<div class="container-fluid mt-4">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card mb-3">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <strong>Monthly Income vs Expense</strong>
+          <div>
+            <a class="btn btn-sm btn-outline-primary" href="{% url 'add_cash' %}">Add Income</a>
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'add_expense' %}">Add Expense</a>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart-container">
+            <canvas id="monthlyChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card mb-3">
+        <div class="card-header"><strong>Top Expenses</strong></div>
+        <div class="card-body">
+          <div class="chart-container">
+            <canvas id="topExpChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header"><strong>Recent Activity</strong></div>
+        <div class="card-body p-0">
+          <table class="table mb-0">
+            <thead>
+              <tr><th>Date</th><th>Type</th><th>Description</th><th class="text-end">Amount</th></tr>
+            </thead>
+            <tbody>
+              {% for tx in recent_tx %}
+                <tr>
+                  <td>{{ tx.datetime|date:"Y-m-d H:i" }}</td>
+                  <td>{% if tx.source %}Income{% else %}Expense{% endif %}</td>
+                  <td>{{ tx.description|default:"-" }}</td>
+                  <td class="text-end">{{ tx.amount|floatformat:2 }} BDT</td>
+                </tr>
+              {% empty %}
+                <tr><td colspan="4" class="text-center text-muted">No recent activity</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // provide dashboard data to the static JS initializer
+  window.dashboardData = {
+    monthlyLabels: {{ monthly_labels_json|default:'[]'|safe }},
+    monthlyIncome: {{ monthly_income_json|default:'[]'|safe }},
+    monthlyExpense: {{ monthly_expense_json|default:'[]'|safe }},
+    topExpLabels: {{ top_exp_labels_json|default:'[]'|safe }},
+    topExpValues: {{ top_exp_values_json|default:'[]'|safe }},
+  };
+</script>
 {% endblock %}
