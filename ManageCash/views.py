@@ -154,7 +154,7 @@ def profile_update_view(request):
 @login_required
 def cash_list_view(request):
 
-    cash_data = AddCash.objects.all()
+    cash_data = AddCash.objects.filter(user=request.user)
     context = {"cash_data": cash_data}
 
     return render(request, "pages/cash-list.html", context)
@@ -218,7 +218,7 @@ def delete_cash_view(request, id):
 @login_required
 def expense_list_view(request):
 
-    exp_data = Expense.objects.all()
+    exp_data = Expense.objects.filter(user=request.user)
     context = {"exp_data": exp_data}
 
     return render(request, "pages/expense-list.html", context)
