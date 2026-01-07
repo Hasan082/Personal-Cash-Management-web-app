@@ -13,8 +13,12 @@ SECRET_KEY = 'django-insecure-&hrd=30@0e+l9cdx+8^jt+@7x3z(ts=-tb(xw==)azdm0%kzs=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['personal-cash-management-web-app.onrender.com']
-
+ALLOWED_HOSTS = [
+    "personal-cash-management-web-app.onrender.com",
+    ".onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
 
 # Application definition
 
